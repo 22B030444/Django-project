@@ -48,6 +48,13 @@ This project is a web-based application built with Django, designed to help stud
 - **GitHub API**: To pull user projects for resume enhancement.
 - **AI Integration**: For generating cover letters, filtering resume data, and providing suggestions.
 
+## API Endpoints
+
+- `POST /resumes`: Create a new resume.
+- `GET /resumes/:id`: Retrieve details of a specific resume by ID.
+- `PUT /resumes/:id`: Update an existing resume.
+- `DELETE /resumes/:id`: Delete a resume.
+- `POST /cover-letter`: AI-assisted cover letter generation.  
 ## Site Routes
 
 Here is an overview of the main routes in the application:
