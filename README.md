@@ -55,6 +55,7 @@ This project is a web-based application built with Django, designed to help stud
 - `PUT /resumes/:id`: Update an existing resume.
 - `DELETE /resumes/:id`: Delete a resume.
 - `POST /cover-letter`: AI-assisted cover letter generation.  
+
 ## Site Routes
 
 Here is an overview of the main routes in the application:
@@ -101,6 +102,11 @@ Here is an overview of the main routes in the application:
 13. **Admin Panel**: `/admin/`
     - Standard Django admin interface for managing users, resumes, and documents.
 
+## AI Features
+
+- **Content Filtering**: AI helps structure and filter resume content for different job types and industries.
+- **Custom Cover Letters**: AI generates tailored cover letters based on job requirements.
+- **Resume Optimization**: AI offers suggestions for improving resume structure and content.
 
 #### Prerequisites
 
