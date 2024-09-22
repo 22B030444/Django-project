@@ -48,7 +48,52 @@ This project is a web-based application built with Django, designed to help stud
 - **GitHub API**: To pull user projects for resume enhancement.
 - **AI Integration**: For generating cover letters, filtering resume data, and providing suggestions.
 
-### Getting Started
+## Site Routes
+
+Here is an overview of the main routes in the application:
+
+1. **Home Page**: `/`
+   - Main landing page with an overview of the features.
+
+2. **Create a New Resume**: `/resumes/create/`
+   - Form for creating a new resume with sections for education, experience, and skills.
+
+3. **View Resumes**: `/resumes/`
+   - List of all resumes created by the user, with options to edit, delete, or preview.
+
+4. **View Specific Resume**: `/resumes/<id>/`
+   - Detailed view of a resume by its ID. Includes an option to download as PDF.
+
+5. **Edit Resume**: `/resumes/<id>/edit/`
+   - Edit an existing resume's content and layout.
+
+6. **Delete Resume**: `/resumes/<id>/delete/`
+   - Confirmation page to delete a resume.
+
+7. **GitHub Integration**:
+   - **Connect GitHub**: `/account/github/connect/`
+     - Connect a GitHub account to import projects.
+   - **View GitHub Projects**: `/resumes/<id>/projects/`
+     - View and select GitHub projects to include in the resume.
+
+8. **Generate AI Cover Letter**: `/resumes/<id>/cover-letter/`
+   - Use AI to generate a cover letter tailored to a specific job.
+
+9. **AI Resume Optimization**: `/resumes/<id>/optimize/`
+   - AI analyzes the resume and provides suggestions for improvement.
+
+10. **Employer's Resume View**: `/employers/resumes/<id>/`
+    - Employers can view a candidate's resume, provide feedback, and mark as approved.
+
+11. **Upload Documents**: `/resumes/<id>/documents/upload/`
+    - Upload certificates, diplomas, or other relevant documents.
+
+12. **View Uploaded Documents**: `/resumes/<id>/documents/`
+    - View or manage uploaded documents.
+
+13. **Admin Panel**: `/admin/`
+    - Standard Django admin interface for managing users, resumes, and documents.
+
 
 #### Prerequisites
 
