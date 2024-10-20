@@ -1,3 +1,12 @@
 from django.db import models
+from resumes.models import Resume
 
-# Create your models here.
+class CoverLetter(models.Model):
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    content = models.TextField()
+    generated_at = models.DateTimeField(auto_now_add=True)
+
+class Optimization(models.Model):
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    suggestions = models.TextField()
+    analyzed_at = models.DateTimeField(auto_now_add=True)

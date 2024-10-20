@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>{{ profile.user.username }}'s Profile</h1>
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    <p><strong>Birth Date:</strong> {{ profile.birth_date }}</p>
+    <p><strong>Contact Number:</strong> {{ profile.number }}</p>
+
+
+    {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }}'s avatar" width="100">
+    {% else %}
+        <p>No avatar uploaded.</p>
+    {% endif %}
+
+    <a href="{% url 'profile_edit' %}">Edit Profile</a>
+    <br>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>
+{% endblock %}
+
+
+<!--  <p><strong>Resume:</strong> <a href="{{ profile.resume.url }}">Download Resume</a></p>-->
