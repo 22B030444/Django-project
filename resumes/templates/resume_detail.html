@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>{{ resume.title }}</h2>
+    <p><strong>Summary:</strong> {{ resume.summary }}</p>
+    <p><strong>Skills:</strong> {{ resume.skills }}</p>
+    <p><strong>Experience:</strong> {{ resume.experience }}</p>
+    <p><strong>Education:</strong> {{ resume.education }}</p>
+
+    <h3>Projects</h3>
+    <ul>
+      {% for project in resume.projects.all %}
+        <li><strong>{{ project.title }}</strong>: {{ project.description }} <br> 
+        <a href="{{ project.github_url }}" target="_blank">{{ project.github_url }}</a></li>
+      {% empty %}
+        <li>No projects added yet.</li>
+      {% endfor %}
+    </ul>
+
+    <a href="{% url 'resume_edit' resume.id %}" class="btn btn-primary">Edit Resume</a>
+    <a href="{% url 'resume_preview' resume.id %}" class="btn btn-info">Preview Resume</a>
+  </div>
+{% endblock %}

@@ -62,7 +62,7 @@ ROOT_URLCONF = 'resume_builder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'resume/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,6 +128,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # settings.py
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+LOGIN_REDIRECT_URL = 'main-page'
+LOGOUT_REDIRECT_URL = 'home'
 
 
 # Default primary key field type
