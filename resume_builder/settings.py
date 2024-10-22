@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'ai_integration',
     'documents',
     'github',
+    'vacancies',
     'rest_framework',
 ]
 
