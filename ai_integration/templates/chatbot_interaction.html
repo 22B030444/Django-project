@@ -1,11 +1,9 @@
-<!-- templates/chatbot_interaction.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chatbot Interaction</title>
-    {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,14 +52,19 @@
     <div id="chat-container">
         <h1>Chat with our AI Assistant</h1>
         <div id="chatbox">
-            <!-- Chat messages will be appended here -->
-            {% for message in chat_history %}
-                <div class="message {% if message.sender == 'user' %}user-message{% else %}bot-message{% endif %}">
-                    <p>{{ message.content }}</p>
+            <!-- Display conversation -->
+            {% if user_input %}
+                <div class="message user-message">
+                    <p>{{ user_input }}</p>
                 </div>
-            {% endfor %}
+            {% endif %}
+            {% if ai_response %}
+                <div class="message bot-message">
+                    <p>{{ ai_response }}</p>
+                </div>
+            {% endif %}
         </div>
-        
+
         <form id="chat-form" method="POST" action="{% url 'chatbot_interaction' %}">
             {% csrf_token %}
             <textarea id="user-input" name="user_input" placeholder="Type your message..." rows="3"></textarea>

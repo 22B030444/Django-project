@@ -1,25 +1,71 @@
-<!-- templates/optimize_resume.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Optimization Suggestions</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #resume-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #resume-suggestions {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        #optimize-button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Resume Optimization Suggestions</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Suggestions for Improving Your Resume</h2>
-            <p>{{ optimization.suggestions }}</p>
-        </section>
-    </main>
-    <footer>
-        <p>AI Suggestions provided by OpenAI GPT-4</p>
-    </footer>
+    <div id="resume-container">
+        <header>
+            <h1>Resume Optimization Suggestions</h1>
+        </header>
+        <main>
+            <section>
+                <h2>Suggestions for Improving Your Resume</h2>
+                <div id="resume-suggestions">
+                    <!-- Optimization suggestions will be dynamically inserted here -->
+                </div>
+            </section>
+            <button id="optimize-button">Get Optimization Suggestions</button>
+        </main>
+        <footer>
+            <p>AI Suggestions provided by OpenAI GPT-4</p>
+        </footer>
+    </div>
+
+    <script>
+        $('#optimize-button').on('click', function() {
+            // Make an Ajax request to get resume optimization suggestions
+            $.ajax({
+                url: '{% url "optimize_resume" %}', // Your Django URL for getting resume optimization
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}' // Pass CSRF token for security
+                },
+                success: function(response) {
+                    // Insert the optimization suggestions into the content div
+                    $('#resume-suggestions').html(`<p>${response.optimization_suggestions}</p>`);
+                },
+                error: function(xhr, status, error) {
+                    $('#resume-suggestions').html('<p>There was an error generating suggestions. Please try again.</p>');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-

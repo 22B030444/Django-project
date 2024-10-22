@@ -1,24 +1,71 @@
-<!-- templates//cover_letter.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generated Cover Letter</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #cover-letter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #cover-letter-content {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        #generate-button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Generated Cover Letter</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Your Cover Letter</h2>
-            <p>{{ cover_letter.content }}</p>
-        </section>
-    </main>
-    <footer>
-        <p>AI Generated with OpenAI GPT-4</p>
-    </footer>
+    <div id="cover-letter-container">
+        <header>
+            <h1>Generate a Cover Letter</h1>
+        </header>
+        <main>
+            <section>
+                <h2>Your Cover Letter</h2>
+                <div id="cover-letter-content">
+                    <!-- Cover letter content will be dynamically inserted here -->
+                </div>
+            </section>
+            <button id="generate-button">Generate Cover Letter</button>
+        </main>
+        <footer>
+            <p>AI Generated with OpenAI GPT-4</p>
+        </footer>
+    </div>
+
+    <script>
+        $('#generate-button').on('click', function() {
+            // Make an Ajax request to generate the cover letter
+            $.ajax({
+                url: '{% url "generate_cover_letter" %}', // Your Django URL for generating the cover letter
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}' // Pass CSRF token for security
+                },
+                success: function(response) {
+                    // Insert the generated cover letter into the content div
+                    $('#cover-letter-content').html(`<p>${response.cover_letter_content}</p>`);
+                },
+                error: function(xhr, status, error) {
+                    $('#cover-letter-content').html('<p>There was an error generating the cover letter. Please try again.</p>');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
