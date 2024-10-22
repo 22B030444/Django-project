@@ -18,7 +18,7 @@
       {% endfor %}
     </ul>
 
-    <a href="{% url 'resume_edit' resume.id %}" class="btn btn-primary">Edit Resume</a>
+    <a href="{% url 'edit_resume' resume.id %}" class="btn btn-primary">Edit Resume</a>
     <a href="{% url 'resume_preview' resume.id %}" class="btn btn-info">Preview Resume</a>
   </div>
 {% endblock %}
