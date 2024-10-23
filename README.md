@@ -1,5 +1,15 @@
 # Resume Builder Web Application with AI Integration
 
+## Team members
+
+| Student name          | Student ID      |
+|-----------------------|-----------------|
+| Suleimenova Zhasmin   | 22B030444       |
+| Tolegen Nursultan     | 22B030453       |
+| Taubaev Azamat        | 22B030450       |
+| Temirgali Rustem      | 22B030451       |
+| Smanova Alua          | 22B031106       |
+
 ## Project Overview
 
 This project is a web-based application built with Django, designed to help students and job seekers automatically create and customize their resumes. The app allows users to enter data through forms, generate a PDF version of their resume, integrate projects from GitHub, upload certificates, and diplomas, and automatically send the resume to job portals. An integrated AI system helps to write cover letters, filter resume information, and provide personalized suggestions based on job requirements.
