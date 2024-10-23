@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from resumes.models import Resume
 from .models import EmployerFeedback,ApprovedUser
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from .forms import EmployerRegisterForm
 from django.http import HttpResponseForbidden
 
@@ -42,6 +42,10 @@ def employer_login(request):
             # Если аутентификация не удалась или пользователь не работодатель
             return HttpResponseForbidden("Неверные данные для входа или вы не являетесь работодателем.")
     return render(request, 'employer_login.html')
+
+def employer_logout(request):
+    logout(request)
+    return redirect('login') 
 @login_required
 def employer_dashboard(request):
     employer = request.user.employer
