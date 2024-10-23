@@ -45,7 +45,7 @@ def employer_login(request):
 
 def employer_logout(request):
     logout(request)
-    return redirect('login') 
+    return redirect('employer_login') 
 @login_required
 def employer_dashboard(request):
     employer = request.user.employer
