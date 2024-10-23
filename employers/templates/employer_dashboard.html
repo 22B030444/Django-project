@@ -8,4 +8,17 @@
         <li>Нет одобренных сотрудников.</li>
     {% endfor %}
 </ul>
+
+<h2>Резюме для одобрения:</h2>
+<ul>
+    {% for resume in resumes %}
+        <li>
+            <strong>{{ resume.title }}</strong> - Пользователь: {{ resume.user.username }}
+            <a href="{% url 'approve_resume' resume.id %}">Одобрить</a>
+        </li>
+    {% empty %}
+        <li>Нет доступных резюме для одобрения.</li>
+    {% endfor %}
+</ul>
+
 <a href="{% url 'logout' %}">Выйти</a>

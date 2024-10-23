@@ -49,14 +49,17 @@ def employer_logout(request):
 @login_required
 def employer_dashboard(request):
     employer = request.user.employer
-    approved_users = employer.approved_users.all()
+    approved_users = employer.approved_users.select_related('resume__user').all()
+    resumes = Resume.objects.exclude(id__in=approved_users.values_list('resume_id', flat=True))  # Исключаем уже одобренные резюме
 
     context = {
         'company_name': employer.company_name,
         'approved_users': approved_users,
+        'resumes': resumes,
     }
 
     return render(request, 'employer_dashboard.html', context)
+
 
 
 @login_required
@@ -65,13 +68,16 @@ def approve_resume(request, resume_id):
 
     # Проверка, что работодатель имеет право одобрять это резюме
     if request.user.is_authenticated and hasattr(request.user, 'employer'):
-        # Сохраните одобренное резюме
-        approved_user = ApprovedUser(employer=request.user.employer, resume=resume)
-        approved_user.save()
+        employer = request.user.employer
+        # Проверяем, не одобрено ли уже это резюме
+        if not ApprovedUser.objects.filter(employer=employer, resume=resume).exists():
+            # Сохраните одобренное резюме
+            approved_user = ApprovedUser(employer=employer, resume=resume)
+            approved_user.save()
+
         return redirect('employer_dashboard')  # Перенаправление обратно на панель управления
 
     return HttpResponseForbidden("У вас нет прав на одобрение этого резюме.")
-@login_required
 def leave_feedback(request, resume_id):
     resume = get_object_or_404(Resume, id=resume_id)
 
