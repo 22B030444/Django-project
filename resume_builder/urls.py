@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('resumes.urls')),
     path('', include('vacancies.urls')),
     path('', include('ai_integration.urls')),
+    path('employers/', include('employers.urls')), 
     
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

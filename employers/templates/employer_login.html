@@ -1,0 +1,21 @@
+<h2>Логин для работодателей</h2>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="username">Имя пользователя:</label>
+        <input type="text" name="username" id="username" required>
+    </div>
+    <div>
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" id="password" required>
+    </div>
+    <button type="submit">Войти</button>
+</form>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

@@ -31,6 +31,7 @@ class Resume(models.Model):
     education = models.TextField(default='No education listed.')          # Default education
     created_at = models.DateTimeField(auto_now_add=True)
     template = models.ForeignKey(ResumeTemplate, on_delete=models.SET_NULL, null=True, blank=True)
+    approved = models.BooleanField(default=False) 
 
     def __str__(self):
         return self.title  # Corrected __str__ method

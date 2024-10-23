@@ -1,0 +1,6 @@
+<h2>Оставить отзыв для резюме: {{ resume.title }}</h2>
+<form method="post">
+    {% csrf_token %}
+    <textarea name="feedback" rows="5" cols="50" required></textarea><br>
+    <button type="submit">Отправить отзыв</button>
+</form>

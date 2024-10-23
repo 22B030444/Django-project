@@ -131,6 +131,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'main-page'
 LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'employer_dashboard'
+
 
 
 # Default primary key field type

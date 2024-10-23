@@ -1,0 +1,10 @@
+<h1>Добро пожаловать в панель управления компании {{ company_name }}</h1>
+
+<h2>Ваши сотрудники:</h2>
+<ul>
+    {% for approved_user in approved_users %}
+        <li>{{ approved_user.resume.user.username }} - Резюме: {{ approved_user.resume.title }}</li>
+    {% empty %}
+        <li>Нет одобренных сотрудников.</li>
+    {% endfor %}
+</ul>
