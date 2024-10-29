@@ -26,10 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('users.urls')),
     path('', RedirectView.as_view(url='/accounts/', permanent=False)),
-    path('', include('resumes.urls')),
-    path('', include('vacancies.urls')),
-    path('', include('ai_integration.urls')),
-    path('employers/', include('employers.urls')), 
+    path('resumes/', include('resumes.urls')),
+    path('vacancy/', include('vacancies.urls')),
+    path('ai/', include('ai_integration.urls')),
     
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

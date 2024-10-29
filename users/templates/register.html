@@ -4,14 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        form {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
     <h1>Register</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+
+    <div>
+        <button id="jobSeekerBtn">Register as Job Seeker</button>
+        <button id="employerBtn">Register as Employer</button>
+    </div>
+
+    <!-- Job Seeker Registration -->
+    <div id="jobSeekerForm" style="display: none;">
+        <h2>Job Seeker Registration</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in user_form %}
+                <div>
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.errors %}
+                        <div class="error">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" name="register_job_seeker">Register as Job Seeker</button>
+        </form>
+    </div>
+
+    <!-- Employer Registration -->
+    <div id="employerForm" style="display: none;">
+        <h2>Employer Registration</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in employer_form %}
+                <div>
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.errors %}
+                        <div class="error">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" name="register_employer">Register as Employer</button>
+
+        </form>
+    </div>
+
     <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+
+    <script>
+        // Get buttons and forms
+        const jobSeekerBtn = document.getElementById('jobSeekerBtn');
+        const employerBtn = document.getElementById('employerBtn');
+        const jobSeekerForm = document.getElementById('jobSeekerForm');
+        const employerForm = document.getElementById('employerForm');
+
+        // Show Job Seeker form by default
+        jobSeekerForm.style.display = 'block';
+
+        // Event listeners for buttons
+        jobSeekerBtn.addEventListener('click', function () {
+            jobSeekerForm.style.display = 'block';
+            employerForm.style.display = 'none';
+        });
+
+        employerBtn.addEventListener('click', function () {
+            employerForm.style.display = 'block';
+            jobSeekerForm.style.display = 'none';
+        });
+    </script>
 </body>
 </html>

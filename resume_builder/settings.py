@@ -40,11 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'resumes',
     'users',
-    'employers',
     'ai_integration',
     'documents',
-    'github',
     'vacancies',
+    'github',
     'rest_framework',
 ]
 
@@ -52,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -139,6 +139,7 @@ LOGOUT_REDIRECT_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+CSRF_FAILURE_VIEW = 'users.views.custom_csrf_failure_view'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -1,3 +1,4 @@
+from django.apps import AppConfig
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -12,6 +13,7 @@ from django.contrib.auth.models import Group, Permission
 # from django.contrib.auth.admin import
 
 # Create your views here.
+
 
 
 class VacancyListView(ListView):
