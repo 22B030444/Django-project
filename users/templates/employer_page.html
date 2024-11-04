@@ -1,24 +1,64 @@
-<h1>Добро пожаловать в панель управления компании {{ company_name }}</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления компании</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #ecf0f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать в панель управления компании {{ company_name }}</h1>
 
-<h2>Ваши сотрудники:</h2>
-<ul>
-    {% for approved_user in approved_users %}
-        <li>{{ approved_user.resume.user.username }} - Резюме: {{ approved_user.resume.title }}</li>
-    {% empty %}
-        <li>Нет одобренных сотрудников.</li>
-    {% endfor %}
-</ul>
+    <h2>Ваши сотрудники:</h2>
+    <ul>
+        {% for approved_user in approved_users %}
+            <li>{{ approved_user.resume.user.username }} - Резюме: {{ approved_user.resume.title }}</li>
+        {% empty %}
+            <li>Нет одобренных сотрудников.</li>
+        {% endfor %}
+    </ul>
 
-<h2>Резюме для одобрения:</h2>
-<ul>
-    {% for resume in resumes %}
-        <li>
-            <strong>{{ resume.title }}</strong> - Пользователь: {{ resume.user.username }}
-            <a href="{% url 'approve_resume' resume.id %}">Одобрить</a>
-        </li>
-    {% empty %}
-        <li>Нет доступных резюме для одобрения.</li>
-    {% endfor %}
-</ul>
+    <h2>Резюме для одобрения:</h2>
+    <ul>
+        {% for resume in resumes %}
+            <li>
+                <strong>{{ resume.title }}</strong> - Пользователь: {{ resume.user.username }}
+                <a href="{% url 'approve_resume' resume.id %}">Одобрить</a>
+            </li>
+        {% empty %}
+            <li>Нет доступных резюме для одобрения.</li>
+        {% endfor %}
+    </ul>
 
-<a href="{% url 'logout' %}">Выйти</a>
+    <p><a href="{% url 'logout' %}">Выйти</a></p>
+</body>
+</html>

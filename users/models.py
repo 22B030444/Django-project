@@ -12,6 +12,7 @@ class Profile(models.Model):
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
 
 
+
     def __str__(self):
         return f'{self.user}'
 

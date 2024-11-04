@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-class EmployerRegisterForm(UserCreationForm):
+class EmployerRegistrationForm(UserCreationForm):
     company_name = forms.CharField(max_length=100, required=True)
     contact_email = forms.EmailField(required=True)
 
@@ -13,7 +13,7 @@ class EmployerRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'company_name', 'contact_email']
 
-class UserRegisterForm(UserCreationForm):
+class JobSeekerRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']

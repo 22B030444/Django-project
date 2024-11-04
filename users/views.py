@@ -40,8 +40,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from resumes.models import Resume
-from .form import EmployerRegisterForm
-from .form import UserRegisterForm, UserLoginForm, ProfileForm
+from .form import UserLoginForm, ProfileForm, JobSeekerRegistrationForm, EmployerRegistrationForm
 from .models import Profile, EmployerFeedback, ApprovedUser
 from django.db import IntegrityError
 
@@ -57,67 +56,61 @@ class MainPage(TemplateView):
         context = super().get_context_data(**kwargs)
         context['user_id'] = self.request.user.id if self.request.user.is_authenticated else None
         return context
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserRegisterForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             email = user.email
-#
-#             # Create Profile for the user
-#             Profile.objects.create(user=user)
-#
-#             # Log in user and redirect based on email format
-#             login(request, user)
-#             if '_' in email:
-#                 return redirect('main-page')  # Redirect job seeker
-#             elif '.' in email:
-#                 return redirect('employer-page')  # Redirect employer
-#     else:
-#         form = UserRegisterForm()
-#     return render(request, 'register.html', {'form': form})
+
 def register(request):
     if request.method == "POST":
-        # Check which form was submitted
         if 'register_job_seeker' in request.POST:
-            user_form = UserRegisterForm(request.POST)
-            employer_form = EmployerRegisterForm()  # Initialize but do not use
+            user_form = JobSeekerRegistrationForm(request.POST)
             if user_form.is_valid():
                 user = user_form.save()
-                # Redirect to resume generation page or wherever you want
-                return redirect('main-page')  # Adjust URL name as necessary
+                Profile.objects.create(user=user)
+                login(request, user)
+                return redirect('main-page')  # Redirect job seeker
 
         elif 'register_employer' in request.POST:
-            employer_form = EmployerRegisterForm(request.POST)
-            user_form = UserRegisterForm()  # Initialize but do not use
+            employer_form = EmployerRegistrationForm(request.POST)
             if employer_form.is_valid():
-                employer_form.save()
-                # Redirect to employer page
-                return redirect('employer-page')  # Adjust URL name as necessary
+                employer = employer_form.save()
+                login(request, employer.user)  # Ensure you link the employer to the user
+                return redirect('employer-page')  # Redirect employer
 
     else:
-        user_form = UserRegisterForm()
-        employer_form = EmployerRegisterForm()
+        user_form = JobSeekerRegistrationForm()
+        employer_form = EmployerRegistrationForm()
 
     return render(request, 'register.html', {
         'user_form': user_form,
         'employer_form': employer_form,
     })
+
+
 def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('main-page')
+
+            email = user.email
+            if '_' in email:
+                return redirect('main-page')  # Redirect job seeker
+            elif '.' in email:
+                return redirect('employer-page')  # Redirect employer
+
+        else:
+            # Provide feedback for invalid credentials
+            return render(request, 'login.html', {'form': form, 'error': 'Invalid username or password.'})
+
     else:
         form = UserLoginForm()
+
     return render(request, 'login.html', {'form': form})
+
 
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('main-page')
+    return redirect('login')
 
 
 def profile_view(request):
