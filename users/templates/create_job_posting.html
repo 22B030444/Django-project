@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave Feedback</title>
+    <title>Create Job Posting</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,13 +22,12 @@
             display: block;
             margin: 10px 0 5px;
         }
-        textarea {
+        input, textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #bdc3c7;
             border-radius: 4px;
-            height: 100px;
         }
         button {
             background: #2980b9;
@@ -49,14 +48,13 @@
 </head>
 <body>
 
-<h1>Leave Feedback for {{ resume.title }}</h1>
+<h1>Create Job Posting</h1>
 
-<form method="POST" action="{% url 'leave_feedback' resume.id %}">
+<form method="POST" action="{% url 'create_job_posting' %}">
     {% csrf_token %}
-    <label for="feedback">Your Feedback:</label>
-    <textarea name="feedback" id="feedback" required></textarea>
+    {{ form.as_p }}
 
-    <button type="submit">Submit Feedback</button>
+    <button type="submit">Submit Job Posting</button>
 </form>
 
 {% if form.errors %}

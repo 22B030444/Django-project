@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'vacancies',
     'github',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

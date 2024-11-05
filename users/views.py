@@ -1,60 +1,27 @@
-# from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.decorators import login_required
-# from django.shortcuts import render, reverse, redirect, get_object_or_404
-#
-# from django.shortcuts import render
-#
-# # Create your views here.
-#
-# @login_required
-# def login_view(request):
-#     context = {}
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-#         if user:
-#             login(request, user)
-#             next = request.POST.get('next')
-#             if next:
-#                 return redirect(next)
-#             return redirect('index')
-#         else:
-#             context['error'] = True
-#         return render(request, '#template-name')
-#
-# @login_required
-# def logout_view(request):
-#     logout(request)
-#     next = request.GET.get('next')
-#     if next:
-#         return redirect(next)
-#     return redirect('index')
-#
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView
 from django.http import HttpResponseForbidden
 from django.template import loader
 from django.contrib.auth.models import User
-from django.http import HttpResponseForbidden
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView
+from .form import UserLoginForm, ProfileForm, JobSeekerRegistrationForm, EmployerRegistrationForm, JobPostingForm
+from .models import Profile, EmployerFeedback, ApprovedUser, Employer
 from resumes.models import Resume
-from .form import UserLoginForm, ProfileForm, JobSeekerRegistrationForm, EmployerRegistrationForm
-from .models import Profile, EmployerFeedback, ApprovedUser
-from django.db import IntegrityError
 
-
+# Custom CSRF failure view
 def custom_csrf_failure_view(request, reason=""):
-    template = loader.get_template('employer_page.html')  # replace with your template
+    template = loader.get_template('employer_page.html')
     return HttpResponseForbidden(template.render())
 
+# Main page view
 class MainPage(TemplateView):
     template_name = 'base.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_id'] = self.request.user.id if self.request.user.is_authenticated else None
+        if self.request.user.is_authenticated:
+            context['user_id'] = self.request.user.id
         return context
 
 def register(request):
@@ -65,14 +32,16 @@ def register(request):
                 user = user_form.save()
                 Profile.objects.create(user=user)
                 login(request, user)
-                return redirect('main-page')  # Redirect job seeker
+                return redirect('main-page')
 
         elif 'register_employer' in request.POST:
             employer_form = EmployerRegistrationForm(request.POST)
             if employer_form.is_valid():
-                employer = employer_form.save()
-                login(request, employer.user)  # Ensure you link the employer to the user
-                return redirect('employer-page')  # Redirect employer
+                user = employer_form.save()  # This assumes employer_form creates a User instance
+                # Here we should create an Employer instance linked to the user
+                Employer.objects.create(user=user)  # Creating Employer linked to the User
+                login(request, user)  # Log in the user
+                return redirect('employer-page')  # Redirect to employer dashboard
 
     else:
         user_form = JobSeekerRegistrationForm()
@@ -83,22 +52,21 @@ def register(request):
         'employer_form': employer_form,
     })
 
-
+# User login view
 def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-
             email = user.email
-            if '_' in email:
-                return redirect('main-page')  # Redirect job seeker
-            elif '.' in email:
-                return redirect('employer-page')  # Redirect employer
 
+            # Redirect based on email format
+            if '_' in email:
+                return redirect('main-page')
+            elif '.' in email:
+                return redirect('employer-page')
         else:
-            # Provide feedback for invalid credentials
             return render(request, 'login.html', {'form': form, 'error': 'Invalid username or password.'})
 
     else:
@@ -106,13 +74,14 @@ def login_view(request):
 
     return render(request, 'login.html', {'form': form})
 
-
+# User logout view
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('base-page')
 
-
+# Profile view
+@login_required
 def profile_view(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     return render(request, 'profile.html', {
@@ -120,7 +89,7 @@ def profile_view(request):
         'profile': profile
     })
 
-# View for editing the profile
+# Profile editing view
 @login_required
 def profile_edit(request):
     profile = request.user.profile
@@ -128,64 +97,76 @@ def profile_edit(request):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')  # Redirect to the profile page after successful edit
+            return redirect('profile')
     else:
         form = ProfileForm(instance=profile)
 
     return render(request, 'profile_edit.html', {'form': form})
 
-
+# Employer dashboard view
+@login_required
 def employer_dashboard(request):
-    if not hasattr(request.user, 'profile') or not request.user.profile.company_name:
+    if not hasattr(request.user, 'employer'):
         return HttpResponseForbidden("Access denied. Only employers can view this page.")
 
-    employer = request.user.profile  # Accessing profile as an employer representation
-    approved_users = ApprovedUser.objects.filter(employer=request.user).select_related('resume__user')
-    resumes = Resume.objects.exclude(id__in=approved_users.values_list('resume_id', flat=True))
+    employer = request.user.employer
+    approved_users = ApprovedUser.objects.filter(employer=employer).select_related('resume__user')
+
+    # Filter resumes based on criteria
+    filter_param = request.GET.get('filter', 'all')
+    if filter_param == 'pending':
+        resumes = Resume.objects.exclude(id__in=approved_users.values_list('resume_id', flat=True))
+    else:
+        resumes = Resume.objects.all()
 
     context = {
         'company_name': employer.company_name,
         'approved_users': approved_users,
         'resumes': resumes,
+        'filter_param': filter_param
     }
-
     return render(request, 'employer_page.html', context)
 
-class EmployerPage(TemplateView):
-    template_name = 'employer_page.html'  # Создайте шаблон для страницы работодателя
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_id'] = self.request.user.id if self.request.user.is_authenticated else None
-        # Здесь можно добавить дополнительные данные для страницы работодателя
-        return context
-
+# Approve resume view
 @login_required
 def approve_resume(request, resume_id):
     resume = get_object_or_404(Resume, id=resume_id)
 
-    # Проверка, что работодатель имеет право одобрять это резюме
-    if request.user.is_authenticated and hasattr(request.user, 'employer'):
+    if hasattr(request.user, 'employer'):
         employer = request.user.employer
-        # Проверяем, не одобрено ли уже это резюме
         if not ApprovedUser.objects.filter(employer=employer, resume=resume).exists():
-            # Сохраните одобренное резюме
-            approved_user = ApprovedUser(employer=employer, resume=resume)
-            approved_user.save()
+            ApprovedUser.objects.create(employer=employer, resume=resume)
+        return redirect('employer-page')
 
-        return redirect('employer-page')  # Перенаправление обратно на панель управления
+    return HttpResponseForbidden("You do not have permission to approve this resume.")
 
-    return HttpResponseForbidden("У вас нет прав на одобрение этого резюме.")
+# Leave feedback view
+@login_required
 def leave_feedback(request, resume_id):
     resume = get_object_or_404(Resume, id=resume_id)
 
     if request.method == 'POST':
         feedback_text = request.POST.get('feedback')
-        feedback = EmployerFeedback.objects.create(
-            employer=request.user.employer,  # Предполагается, что вы добавили связь с Employer в User
+        EmployerFeedback.objects.create(
+            employer=request.user.employer,
             resume=resume,
             feedback=feedback_text
         )
         return redirect('employer-page')
 
     return render(request, 'leave_feedback.html', {'resume': resume})
+
+# Job posting view
+@login_required
+def create_job_posting(request):
+    if request.method == 'POST':
+        form = JobPostingForm(request.POST)
+        if form.is_valid():
+            job_posting = form.save(commit=False)
+            job_posting.employer = request.user.employer  # Associate job posting with the logged-in employer
+            job_posting.save()
+            return redirect('employer-page')  # Redirect after successful creation
+    else:
+        form = JobPostingForm()
+
+    return render(request, 'create_job_posting.html', {'form': form})
