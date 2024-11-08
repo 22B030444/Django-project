@@ -14,7 +14,7 @@
 
         body {
             line-height: 1.6;
-            background-color: #f4f4f4;
+            background-color: #f4f6f8;
             color: #333;
             display: flex;
             flex-direction: column;
@@ -22,10 +22,12 @@
         }
 
         header {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #2c3e50;
+            color: #fff;
             padding: 10px 20px;
             text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
         }
 
         nav {
@@ -35,7 +37,7 @@
         }
 
         nav a {
-            color: white;
+            color: #ecf0f1;
             text-decoration: none;
             font-weight: bold;
         }
@@ -45,27 +47,36 @@
         }
 
         .container {
-            flex: 1;
-            padding: 20px;
             max-width: 800px;
             margin: 20px auto;
-            background-color: white;
+            background-color: #fff;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        h1, h2 {
+            color: #2c3e50;
+        }
+
         footer {
             background-color: #222;
-            color: white;
+            color: #fff;
             text-align: center;
             padding: 10px 0;
             font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 0;
         }
     </style>
 </head>
 <body>
     <header>
         <nav>
+            <a href="{% url 'base-page' %}">Home</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}">Profile</a>
                 <a href="{% url 'logout' %}">Logout</a>

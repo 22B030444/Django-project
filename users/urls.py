@@ -11,7 +11,7 @@ from .views import (
     profile_view,
     profile_edit,
     employer_dashboard,
-    create_job_posting,
+    create_job_posting, reject_resume,
 )
 
 urlpatterns = [
@@ -21,6 +21,7 @@ urlpatterns = [
     # Employer-related paths
     path('employer/', employer_dashboard, name='employer-page'),
     path('employer/approve/<int:resume_id>/', approve_resume, name='approve_resume'),
+    path('employer/reject/<int:resume_id>/', reject_resume, name='reject_resume'),
     path('employer/create-job-posting/', create_job_posting, name='create_job_posting'),
     path('employer/leave-feedback/<int:resume_id>/', leave_feedback, name='leave_feedback'),
 

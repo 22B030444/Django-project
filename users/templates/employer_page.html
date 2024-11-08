@@ -133,6 +133,7 @@
                         <div class="action-links">
                             <a href="{% url 'approve_resume' resume.id %}">Approve</a>
                             <a href="{% url 'reject_resume' resume.id %}">Reject</a>
+                            <a href="{% url 'leave_feedback' resume.id %}">Leave Feedback</a>
                         </div>
                     </li>
                 {% empty %}

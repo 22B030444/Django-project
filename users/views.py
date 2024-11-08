@@ -37,11 +37,11 @@ def register(request):
         elif 'register_employer' in request.POST:
             employer_form = EmployerRegistrationForm(request.POST)
             if employer_form.is_valid():
-                user = employer_form.save()  # This assumes employer_form creates a User instance
-                # Here we should create an Employer instance linked to the user
-                Employer.objects.create(user=user)  # Creating Employer linked to the User
-                login(request, user)  # Log in the user
-                return redirect('employer-page')  # Redirect to employer dashboard
+                user = employer_form.save()
+                # Creating Employer instance linked to the new user
+                Employer.objects.create(user=user, company_name=employer_form.cleaned_data['company_name'], contact_email=employer_form.cleaned_data['contact_email'])
+                login(request, user)
+                return redirect('employer-page')
 
     else:
         user_form = JobSeekerRegistrationForm()
@@ -139,6 +139,21 @@ def approve_resume(request, resume_id):
         return redirect('employer-page')
 
     return HttpResponseForbidden("You do not have permission to approve this resume.")
+
+@login_required
+def reject_resume(request, resume_id):
+    resume = get_object_or_404(Resume, id=resume_id)
+
+    if hasattr(request.user, 'employer'):
+        employer = request.user.employer
+        # Check if the resume is approved and remove it if so
+        approved_user = ApprovedUser.objects.filter(employer=employer, resume=resume)
+        if approved_user.exists():
+            approved_user.delete()  # Delete the approval entry if it exists
+
+        return redirect('employer-page')  # Redirect to the employer's dashboard
+
+    return HttpResponseForbidden("You do not have permission to reject this resume.")
 
 # Leave feedback view
 @login_required
