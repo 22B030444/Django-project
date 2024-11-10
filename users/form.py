@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Profile, JobPosting
+from .models import Profile, JobPosting,JobApplication
 
 
 class EmployerRegistrationForm(UserCreationForm):
@@ -49,3 +49,18 @@ class JobPostingForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 5}),
         }
+
+class JobSearchForm(forms.Form):
+    profession = forms.CharField(required=False, label='Profession')
+    location = forms.CharField(required=False, label='Location')
+    min_salary = forms.DecimalField(required=False, max_digits=10, decimal_places=2, label='Min Salary')
+    max_salary = forms.DecimalField(required=False, max_digits=10, decimal_places=2, label='Max Salary')
+    employment_type = forms.ChoiceField(
+        choices=[('', 'Any')] + JobPosting.EMPLOYMENT_TYPE_CHOICES,  # Add a blank option for any type
+        required=False,
+        label='Employment Type'
+    )
+class JobApplicationForm(forms.ModelForm):
+    class Meta:
+        model = JobApplication
+        fields = ['job_posting', 'applicant', 'resume']  # Убедитесь, что 'resume' в форме

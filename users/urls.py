@@ -12,6 +12,8 @@ from .views import (
     profile_edit,
     employer_dashboard,
     create_job_posting, reject_resume,
+    job_search,
+    apply_to_job
 )
 
 urlpatterns = [
@@ -33,4 +35,8 @@ urlpatterns = [
     # Profile paths
     path('profile/', profile_view, name='profile'),
     path('profile/edit/', profile_edit, name='profile_edit'),
+
+    #Job seeker-related paths
+    path('job-search/', job_search, name='job-search'),
+    path('apply/<int:job_id>/', apply_to_job, name='apply-to-job'),
 ]

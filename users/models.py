@@ -1,3 +1,4 @@
+#models
 from django.contrib.auth.models import User
 from django.db import models
 from resumes.models import Resume
@@ -35,7 +36,6 @@ class EmployerFeedback(models.Model):
 
     def __str__(self):
         return f'Feedback by {self.employer.company_name} on {self.resume}'
-
 class JobPosting(models.Model):
     EMPLOYMENT_TYPE_CHOICES = [
         ('full_time', 'Full Time'),
@@ -57,3 +57,13 @@ class JobPosting(models.Model):
 
     def __str__(self):
         return self.title
+
+class JobApplication(models.Model):
+    job_posting = models.ForeignKey(JobPosting, on_delete=models.CASCADE, related_name='applications', verbose_name='Job Posting')
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_applications', verbose_name='Applicant')
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, verbose_name='Resume')
+    applied_at = models.DateTimeField(auto_now_add=True, verbose_name='Applied At')
+
+    def __str__(self):
+        return f'{self.applicant.username} applied to {self.job_posting.title}'
+

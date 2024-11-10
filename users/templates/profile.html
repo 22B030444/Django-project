@@ -14,7 +14,6 @@
     <p><strong>Birth Date:</strong> {{ profile.birth_date }}</p>
     <p><strong>Contact Number:</strong> {{ profile.number }}</p>
 
-
     {% if profile.avatar %}
         <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }}'s avatar" width="100">
     {% else %}
@@ -24,9 +23,10 @@
     <a href="{% url 'profile_edit' %}">Edit Profile</a>
     <br>
 
+    <!-- Кнопка для перехода на страницу поиска вакансий -->
+    <a href="{% url 'job-search' %}">
+        <button type="button">Go to Job Search</button>
+    </a>
 </body>
 </html>
 {% endblock %}
-
-
-<!--  <p><strong>Resume:</strong> <a href="{{ profile.resume.url }}">Download Resume</a></p>-->

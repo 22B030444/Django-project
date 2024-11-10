@@ -123,21 +123,34 @@
         </div>
 
         <div class="resume-list">
-            <h2>Resumes for Approval:</h2>
+            <h2>Your Job Postings:</h2>
             <ul>
-                {% for resume in resumes %}
+                {% for job in job_postings %}
                     <li>
                         <div class="resume-info">
-                            <strong>{{ resume.title }}</strong> - User: {{ resume.user.username }}
+                            <strong>{{ job.title }}</strong> - Location: {{ job.location }} - Salary: {{ job.salary }}
                         </div>
-                        <div class="action-links">
-                            <a href="{% url 'approve_resume' resume.id %}">Approve</a>
-                            <a href="{% url 'reject_resume' resume.id %}">Reject</a>
-                            <a href="{% url 'leave_feedback' resume.id %}">Leave Feedback</a>
-                        </div>
+                        <h3>Applicants:</h3>
+                        <ul>
+                            {% for application in job.applications.all %}
+                                <li>
+                                    <div class="resume-info">
+                                        <strong>Applicant:</strong> {{ application.applicant.username }}<br>
+                                        <strong>Applied on:</strong> {{ application.application_date }}
+                                        <div class="action-links">
+                                            <!-- Approve and Reject buttons for each applicant -->
+                                            <a href="{% url 'approve_resume' application.resume.id %}">Approve</a>
+                                            <a href="{% url 'reject_resume' application.resume.id %}">Reject</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% empty %}
+                                <li>No applicants yet for this job posting.</li>
+                            {% endfor %}
+                        </ul>
                     </li>
                 {% empty %}
-                    <li>No resumes available for approval.</li>
+                    <li>No job postings available.</li>
                 {% endfor %}
             </ul>
         </div>

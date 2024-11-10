@@ -5,10 +5,10 @@ from django.views.generic import TemplateView
 from django.http import HttpResponseForbidden
 from django.template import loader
 from django.contrib.auth.models import User
-from .form import UserLoginForm, ProfileForm, JobSeekerRegistrationForm, EmployerRegistrationForm, JobPostingForm
-from .models import Profile, EmployerFeedback, ApprovedUser, Employer
+from .form import UserLoginForm, ProfileForm, JobSeekerRegistrationForm, EmployerRegistrationForm, JobPostingForm, JobSearchForm,JobApplicationForm
+from .models import Profile, EmployerFeedback, ApprovedUser, Employer, JobPosting, JobApplication
 from resumes.models import Resume
-
+from django.db.models import Q
 # Custom CSRF failure view
 def custom_csrf_failure_view(request, reason=""):
     template = loader.get_template('employer_page.html')
@@ -105,25 +105,30 @@ def profile_edit(request):
 
 # Employer dashboard view
 @login_required
+# views.py
+
+@login_required
 def employer_dashboard(request):
     if not hasattr(request.user, 'employer'):
         return HttpResponseForbidden("Access denied. Only employers can view this page.")
 
     employer = request.user.employer
+    job_postings = employer.job_postings.prefetch_related('applications__applicant')
     approved_users = ApprovedUser.objects.filter(employer=employer).select_related('resume__user')
-
-    # Filter resumes based on criteria
     filter_param = request.GET.get('filter', 'all')
     if filter_param == 'pending':
         resumes = Resume.objects.exclude(id__in=approved_users.values_list('resume_id', flat=True))
     else:
         resumes = Resume.objects.all()
 
+
     context = {
         'company_name': employer.company_name,
+        'job_postings': job_postings,
         'approved_users': approved_users,
         'resumes': resumes,
         'filter_param': filter_param
+
     }
     return render(request, 'employer_page.html', context)
 
@@ -185,3 +190,57 @@ def create_job_posting(request):
         form = JobPostingForm()
 
     return render(request, 'create_job_posting.html', {'form': form})
+
+
+@login_required
+def job_search(request):
+    form = JobSearchForm(request.GET or None)
+    job_postings = JobPosting.objects.all()
+
+    if form.is_valid():
+        # Filtering by employment type
+        employment_type = form.cleaned_data.get('employment_type')
+        if employment_type:
+            job_postings = job_postings.filter(employment_type=employment_type)
+
+        # Filtering by profession
+        profession = form.cleaned_data.get('profession')
+        if profession:
+            job_postings = job_postings.filter(title__icontains=profession)
+
+        # Filtering by location
+        location = form.cleaned_data.get('location')
+        if location:
+            job_postings = job_postings.filter(location__icontains=location)
+
+        # Filtering by salary range
+        min_salary = form.cleaned_data.get('min_salary')
+        max_salary = form.cleaned_data.get('max_salary')
+        if min_salary is not None:
+            job_postings = job_postings.filter(salary__gte=min_salary)
+        if max_salary is not None:
+            job_postings = job_postings.filter(salary__lte=max_salary)
+
+    return render(request, 'job_search.html', {
+        'form': form,
+        'job_postings': job_postings,
+    })
+
+
+
+@login_required
+def apply_to_job(request, job_id):
+    job_posting = get_object_or_404(JobPosting, id=job_id)
+    user = request.user
+
+    # Проверяем, есть ли у пользователя резюме
+    try:
+        resume = Resume.objects.get(user=user)
+    except Resume.DoesNotExist:
+        # Если резюме нет, перенаправляем на страницу создания резюме
+        return redirect('create_resume')  # Замените 'create_resume' на ваш URL для создания резюме
+
+    # Если резюме есть, можно выполнить действия по подаче заявки на работу
+    # Здесь логика подачи заявки на работу, если нужно
+
+    return redirect('job-search')  # Перенаправление на страницу поиска вакансий
