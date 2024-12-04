@@ -1,0 +1,76 @@
+Watching for file changes with StatReloader
+Forbidden: /accounts/profile/
+Not Found: /course/courses/
+Forbidden: /vacancy/1/delete/
+Not Found: /vacancy/2/
+Not Found: /api/applications/1/
+Not Found: /api/applications/employer/
+Not Found: /api/applications/user/
+Not Found: /api/applications/1/
+Not Found: /api/applications/employer/
+Not Found: /api/applications/user/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Watching for file changes with StatReloader
+Forbidden: /vacancy/
+/Users/rustemtemirgali/Desktop/kbtu3_5s/Django2024/final_project/Django-project/vacancies/views.py changed, reloading.
+Watching for file changes with StatReloader
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+/Users/rustemtemirgali/Desktop/kbtu3_5s/Django2024/final_project/Django-project/vacancies/views.py changed, reloading.
+Watching for file changes with StatReloader
+Forbidden: /vacancy/
+/Users/rustemtemirgali/Desktop/kbtu3_5s/Django2024/final_project/Django-project/vacancies/views.py changed, reloading.
+Watching for file changes with StatReloader
+Forbidden: /vacancy/
+Forbidden: /vacancy/
+/Users/rustemtemirgali/Desktop/kbtu3_5s/Django2024/final_project/Django-project/vacancies/views.py changed, reloading.
+Watching for file changes with StatReloader
+Bad Request: /vacancy/create/
+Watching for file changes with StatReloader
+Forbidden: /vacancy/create/
+Method Not Allowed: /vacancy/create/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/delete/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/delete/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/delete/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Forbidden: /vacancy/1/delete/
+Forbidden: /vacancy/1/edit/
+Forbidden: /vacancy/create/
+Watching for file changes with StatReloader
