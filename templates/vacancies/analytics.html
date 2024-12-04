@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacancy Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Vacancy Analytics</h1>
+    <canvas id="vacancyChart" width="400" height="200"></canvas>
+    <script>
+        // Fetch the data from the API
+        fetch('{% url "vacancies_per_month_api" %}')
+            .then(response => response.json())
+            .then(data => {
+                // Get the canvas element
+                const ctx = document.getElementById('vacancyChart').getContext('2d');
+
+                // Create the Chart.js line chart with the data
+                new Chart(ctx, {
+                    type: 'line',  // Line chart type
+                    data: {
+                        labels: data.months,  // x-axis labels (months)
+                        datasets: [{
+                            label: 'Vacancies Posted',
+                            data: data.vacancy_counts,  // y-axis data (vacancy counts)
+                            borderColor: 'rgb(75, 192, 192)',  // Line color
+                            fill: false,  // Do not fill the area under the line
+                            tension: 0.1  // Smooth the line
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Month'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Number of Vacancies'
+                                },
+                                beginAtZero: true  // Start the y-axis from zero
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching the data:', error));
+    </script>
+</body>
+</html>

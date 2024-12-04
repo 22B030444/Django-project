@@ -50,3 +50,23 @@
 "GET / HTTP/1.1" 302 0
 "GET /accounts/log/login HTTP/1.1" 301 0
 "GET /accounts/log/login/ HTTP/1.1" 200 2704
+"GET / HTTP/1.1" 302 0
+"GET /accounts/log/login HTTP/1.1" 301 0
+"GET /accounts/log/login/ HTTP/1.1" 200 2704
+"POST /accounts/log/login/ HTTP/1.1" 302 0
+"GET /accounts/profile/ HTTP/1.1" 200 6108
+"GET /accounts/profile/ HTTP/1.1" 200 6108
+"GET /vacancy/ HTTP/1.1" 200 10638
+"GET /vacancy/vacancies-per-month HTTP/1.1" 301 0
+"GET /vacancy/vacancies-per-month/ HTTP/1.1" 200 122
+"GET / HTTP/1.1" 302 0
+"GET /accounts/log/login HTTP/1.1" 301 0
+"GET /accounts/log/login/ HTTP/1.1" 200 2704
+"GET /vacancy/vacancies-per-month/ HTTP/1.1" 200 122
+"GET /vacancy/vacancies-per-month/ HTTP/1.1" 200 122
+"GET /vacancy/vacancies-per-month/ HTTP/1.1" 200 122
+"GET /vacancy/vacancies-analytics HTTP/1.1" 301 0
+"GET /vacancy/vacancies-analytics/ HTTP/1.1" 500 112936
+- Broken pipe from ('127.0.0.1', 58858)
+"GET /vacancy/vacancies-analytics/ HTTP/1.1" 200 2191
+"GET /vacancy/vacancies-per-month/ HTTP/1.1" 200 122

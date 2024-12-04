@@ -13,8 +13,41 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework import generics
 from .models import JobApplication
 from .serializers import JobApplicationSerializer
+import matplotlib.pyplot as plt
+from io import BytesIO
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
+from django.utils.timezone import now
+from .models import Vacancy
+from datetime import timedelta
 
 logger = logging.getLogger('api_access')
+
+def vacancies_analytics(request):
+    return render(request, 'vacancies/analytics.html')
+
+def vacancies_per_month_api(request):
+    end_date = now()
+    start_date = end_date - timedelta(days=180)
+
+    vacancies = Vacancy.objects.filter(created_at__gte=start_date, created_at__lte=end_date)
+
+    months = []
+    vacancy_counts = []
+
+    for i in range(6):
+        month_start = start_date + timedelta(days=i * 30)
+        month_end = month_start + timedelta(days=30)
+        months.append(month_start.strftime('%b %Y'))
+        count = vacancies.filter(created_at__gte=month_start, created_at__lte=month_end).count()
+        vacancy_counts.append(count)
+
+    data = {
+        'months': months,
+        'vacancy_counts': vacancy_counts
+    }
+
+    return JsonResponse(data)
 
 class VacancyListView(generics.ListAPIView):
     queryset = Vacancy.objects.all()

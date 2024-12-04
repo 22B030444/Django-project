@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import VacancyListView, VacancyCreateView, VacancyDetailView, VacancyUpdateView, VacancyDeleteView, JobApplicationCreateView
-from .views import UserJobApplicationListView, EmployerJobApplicationsListView, JobApplicationStatusUpdateView
+from .views import UserJobApplicationListView, EmployerJobApplicationsListView, JobApplicationStatusUpdateView, vacancies_per_month_api, vacancies_analytics
 
 urlpatterns = [
     path('', VacancyListView.as_view(), name='vacancy_list'),
@@ -12,4 +12,7 @@ urlpatterns = [
     path('my-applications/', UserJobApplicationListView.as_view(), name='user_job_applications'),
     path('my-vacancy-applications/', EmployerJobApplicationsListView.as_view(), name='employer_job_applications'),
     path('applications/<int:pk>/status/', JobApplicationStatusUpdateView.as_view(), name='update_application_status'),
+    path('vacancies-per-month/', vacancies_per_month_api, name='vacancies_per_month_api'),
+    path('vacancies-analytics/', vacancies_analytics, name='vacancies_analytics'),  #  HTML page
+
 ]
