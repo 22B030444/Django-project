@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommendation Letter</title>
+</head>
+<body>
+    <h1>Recommendation Letter for {{ name }}</h1>
+    <p>To whom it may concern,</p>
+    <p>I am writing to recommend {{ name }} for your organization. {{ name }} has demonstrated exceptional skills in:</p>
+    <ul>
+        {% for skill in skills %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+    <p>Feel free to contact me at {{ email }} for further details.</p>
+    <p>Best regards,</p>
+    <p>John Doe</p>
+</body>
+</html>

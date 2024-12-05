@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'company',
     'employers',
     'drf_yasg',
+    'pdf_generator',
 ]
 
 MIDDLEWARE = [
@@ -96,7 +97,10 @@ ROOT_URLCONF = 'resume_builder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),  # Keep this if other templates are in 'templates'
+            os.path.join(BASE_DIR, 'pdf_generator', 'templates')  # Add this line
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

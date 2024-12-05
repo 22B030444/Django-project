@@ -27,6 +27,7 @@ urlpatterns = [
     path('register/', register_user, name='register'),
     path('profile/', about_user, name='profile'),
     path('profile/edit/', UserProfileView.as_view(), name='profile_edit'),
+    
     # path('employer/', employer_dashboard, name='employer-page'),
     # path('employer/approve/<int:resume_id>/', approve_resume, name='approve_resume'),
     # path('employer/reject/<int:resume_id>/', reject_resume, name='reject_resume'),

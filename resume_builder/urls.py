@@ -46,6 +46,7 @@ urlpatterns = [
     path('employer/', include('employers.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
          name='swagger-schema'),
+    path('pdf/', include('pdf_generator.urls')),
     # path('ai/', include('ai_integration.urls')),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

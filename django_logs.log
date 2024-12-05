@@ -130,3 +130,65 @@ django.urls.exceptions.NoReverseMatch: Reverse for 'vacancies_per_month_api' not
 Watching for file changes with StatReloader
 /Users/rustemtemirgali/Desktop/kbtu3_5s/Django2024/final_project/Django-project/vacancies/urls.py changed, reloading.
 Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Not Found: /favicon.ico
+Watching for file changes with StatReloader
+/Users/alua/Desktop/Django-project/resume_builder/urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Forbidden: /accounts/profile/
+Forbidden: /accounts/profile/
+Internal Server Error: /pdf/resume/
+Traceback (most recent call last):
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/pdf_generator/urls.py", line 5, in <lambda>
+    path('resume/', lambda r: generate_pdf(r, 'resume_template.html'), name='generate_resume_pdf'),
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/pdf_generator/views.py", line 26, in generate_pdf
+    template = get_template(f'pdf_templates/{template_name}')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: pdf_templates/resume_template.html
+/Users/alua/Desktop/Django-project/resume_builder/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /pdf/resume/
+Traceback (most recent call last):
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/pdf_generator/urls.py", line 5, in <lambda>
+    path('resume/', lambda r: generate_pdf(r, 'resume_template.html'), name='generate_resume_pdf'),
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/pdf_generator/views.py", line 26, in generate_pdf
+    template = get_template(f'pdf_templates/{template_name}')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: pdf_templates/resume_template.html
+Internal Server Error: /pdf/resume/
+Traceback (most recent call last):
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/pdf_generator/urls.py", line 5, in <lambda>
+    path('resume/', lambda r: generate_pdf(r, 'resume_template.html'), name='generate_resume_pdf'),
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/pdf_generator/views.py", line 26, in generate_pdf
+    template = get_template(f'pdf_templates/{template_name}')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alua/Desktop/Django-project/venvr/lib/python3.11/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: pdf_templates/resume_template.html
